@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Plan Financier de Vie - Système de gestion d'affiliés">
+    <title>PFV 1.0 - Plan Financier de Vie</title>
+    
+    <!-- PWA Meta -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">◆</span>
+                <span class="logo-text">PFV</span>
+                <span class="version">v1.0</span>
+            </div>
+            <button class="menu-btn" id="menuBtn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Menu</h2>
+            <button class="close-btn" id="closeBtn">&times;</button>
+        </div>
+        <ul class="nav-list">
+            <li><a href="#dashboard" class="nav-link active" data-view="dashboard">
+                <span class="nav-icon">📊</span> Tableau de bord
+            </a></li>
+            <li><a href="#affilies" class="nav-link" data-view="affilies">
+                <span class="nav-icon">👥</span> Mes affiliés
+            </a></li>
+            <li><a href="#ajouter" class="nav-link" data-view="ajouter">
+                <span class="nav-icon">➕</span> Ajouter affilié
+            </a></li>
+            <li><a href="#regles" class="nav-link" data-view="regles">
+                <span class="nav-icon">📋</span> Règles PFV
+            </a></li>
+            <li><a href="#export" class="nav-link" data-view="export">
+                <span class="nav-icon">💾</span> Export données
+            </a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard View -->
+        <section id="view-dashboard" class="view active">
+            <h1 class="page-title">Tableau de bord</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalAffiliates">0</div>
+                        <div class="stat-label">Total affiliés</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-success">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalGains">0 FCFA</div>
+                        <div class="stat-label">Gains totaux</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-info">
+                    <div class="stat-icon">🔗</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="directAffiliates">0/2</div>
+                        <div class="stat-label">Affiliés directs</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="networkLevel">Niveau 0</div>
+                        <div class="stat-label">Progression</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="network-visual">
+                <h2 class="section-title">Structure du réseau</h2>
+                <div class="network-tree" id="networkTree">
+                    <div class="tree-level">
+                        <div class="tree-node root">
+                            <div class="node-content">Vous</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Affiliés View -->
+        <section id="view-affilies" class="view">
+            <h1 class="page-title">Mes affiliés</h1>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher un affilié..." class="search-input">
+            </div>
+
+            <div class="affiliates-list" id="affiliatesList">
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <p>Aucun affilié pour le moment</p>
+                    <p class="empty-subtitle">Commencez par ajouter votre premier affilié</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ajouter View -->
+        <section id="view-ajouter" class="view">
+            <h1 class="page-title">Ajouter un affilié</h1>
+            
+            <div class="form-container">
+                <form id="addAffiliateForm" class="affiliate-form">
+                    <div class="form-group">
+                        <label for="affiliateName">Nom complet</label>
+                        <input type="text" id="affiliateName" required placeholder="Ex: Jean Dupont">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="affiliateContact">Contact</label>
+                        <input type="tel" id="affiliateContact" required placeholder="Ex: +225 0701020304">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="affiliateParent">Affilié à</label>
+                        <select id="affiliateParent" required>
+                            <option value="">-- Sélectionner --</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-info">
+                        <span class="info-icon">ℹ️</span>
+                        <span>Chaque membre peut avoir maximum 2 affiliés directs</span>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <span>Ajouter l'affilié</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Règles View -->
+        <section id="view-regles" class="view">
+            <h1 class="page-title">Règles officielles PFV</h1>
+            
+            <div class="rules-container">
+                <div class="rules-header">
+                    <span class="lock-icon">🔒</span>
+                    <span>VERSION VERROUILLÉE 1.0</span>
+                </div>
+
+                <div class="rule-section">
+                    <h3>1. Structure</h3>
+                    <ul>
+                        <li>Maximum 2 affiliés directs par membre</li>
+                        <li>Croissance binaire : 1, 2, 4, 8, 16... jusqu'à 16 384</li>
+                        <li>Structure strictement binaire</li>
+                    </ul>
+                </div>
+
+                <div class="rule-section">
+                    <h3>2. Calcul des gains</h3>
+                    <ul>
+                        <li>Gain de base : <strong>80 FCFA</strong> par affilié</li>
+                        <li>Gain total = nombre d'affiliés × 80 FCFA</li>
+                        <li>Calcul automatique par le système</li>
+                    </ul>
+                </div>
+
+                <div class="rule-section">
+                    <h3>3. Inscription</h3>
+                    <ul>
+                        <li>Nom et contact valides obligatoires</li>
+                        <li>Identifiant unique pour chaque affilié</li>
+                        <li>Aucun compte fictif autorisé</li>
+                        <li>Aucun doublon</li>
+                    </ul>
+                </div>
+
+                <div class="rule-section">
+                    <h3>4. Limites du système</h3>
+                    <ul>
+                        <li>Plafond : 16 384 affiliés par réseau</li>
+                        <li>Maximum 2 affiliés directs (non modifiable)</li>
+                    </ul>
+                </div>
+
+                <div class="rule-section">
+                    <h3>5. Gouvernance</h3>
+                    <ul>
+                        <li>Règles modifiables uniquement par l'admin fondateur</li>
+                        <li>Toute modification non autorisée invalide le système</li>
+                        <li>Validation admin pour inscriptions et exports</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export View -->
+        <section id="view-export" class="view">
+            <h1 class="page-title">Export des données</h1>
+            
+            <div class="export-container">
+                <div class="export-card">
+                    <div class="export-icon">📄</div>
+                    <h3>Export CSV</h3>
+                    <p>Exporter la liste complète des affiliés au format CSV</p>
+                    <button class="btn btn-secondary" id="exportCsvBtn">
+                        Télécharger CSV
+                    </button>
+                </div>
+
+                <div class="export-card">
+                    <div class="export-icon">📋</div>
+                    <h3>Export TXT</h3>
+                    <p>Exporter les règles officielles PFV au format texte</p>
+                    <button class="btn btn-secondary" id="exportTxtBtn">
+                        Télécharger TXT
+                    </button>
+                </div>
+
+                <div class="export-card">
+                    <div class="export-icon">📊</div>
+                    <h3>Rapport complet</h3>
+                    <p>Générer un rapport détaillé avec statistiques</p>
+                    <button class="btn btn-secondary" id="exportReportBtn">
+                        Générer rapport
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker enregistré'))
+                    .catch(err => console.log('Erreur Service Worker:', err));
+            });
+        }
+    </script>
+</body>
+</html>
